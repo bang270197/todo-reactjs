@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ToastContainer } from "react-toastify";
-import { Contents } from "./Index";
+import { RegisterItem } from "../../Constants/Item";
 import "./Register.css";
 import authApi from "../../Api/AuthApi";
 import { createNotification } from "../../components/Notification/Notification";
@@ -50,7 +50,7 @@ function Register(props) {
             <h1>Đăng Ký</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                {Contents.inputs.map((input, index) => {
+                {RegisterItem.inputs.map((input, index) => {
                     return (
                         <div key={index}>
                             <label className="label">{input.label}</label>

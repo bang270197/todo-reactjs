@@ -14,9 +14,16 @@ function App() {
                 <Navbar />
                 <Switch>
                     <Route path="/" component={Login} exact />
-                    <Route path="/project" component={ListProject} />
-                    <Route path="/task" component={Task} />
-                    <Route path="/sign-up" component={Register} />
+                    <Route path="/project" exact>
+                        <ListProject />
+                    </Route>
+                    <Route path="/tasks" exact>
+                        <Task />
+                    </Route>
+                    <Route path="/task/:id" exact>
+                        <Task />
+                    </Route>
+                    <Route path="/sign-up" component={Register} exact />
                     <Route component={PageNotFound} />
                 </Switch>
             </Router>

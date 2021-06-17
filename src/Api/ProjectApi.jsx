@@ -8,5 +8,13 @@ const projectApi = {
         const url = "/project";
         return axiosClient.post(url, data);
     },
+    delete(id) {
+        const url = `/project/${id}`;
+        return axiosClient.delete(url);
+    },
+    update(data, id) {
+        const url = `/project/${id}`;
+        return axiosClient.put(url, data);
+    },
 };
 export default projectApi;

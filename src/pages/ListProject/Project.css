@@ -1,5 +1,5 @@
 img {
-    width: 120px;
+    width: 100px;
     border-radius: 0.5rem;
 }
 .project_name {
@@ -17,9 +17,24 @@ li {
 }
 .project {
     margin-left: 20px;
+    margin-top: 20px;
     border: 1px solid;
     border-radius: 0.5rem;
     cursor: pointer;
+    box-shadow: 10px 10px #d3d9df;
+    position: relative;
+}
+.fa-trash {
+    position: absolute;
+    right: -5%;
+    top: -5px;
+    /* opacity: 0; */
+    cursor: pointer;
+    color: red;
+}
+.fa-trash:hover {
+    opacity: 5;
+    transition: 0.5s;
 }
 .loading {
     width: 100%;
@@ -32,5 +47,24 @@ li {
     font-size: 20px;
     background-color: #e0dce8;
 }
-.btn {
+
+.spinner {
+    margin-top: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.container {
+    margin-top: 20px;
+}
+.fa-circle {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+}
+.dot-red {
+    color: red;
+}
+.dot-green {
+    color: green;
 }

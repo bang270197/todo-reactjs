@@ -5,19 +5,15 @@ import { createNotification } from "../../components/Notification/Notification";
 import { ToastContainer } from "react-toastify";
 import Project from "./Project";
 import "./Project.css";
-import { useLoading, ThreeDots } from "@agney/react-loading";
-import CountProject from "./CountProject";
-import ModalAdd from "./ModalAdd";
-import { Col, Container, Row } from "react-bootstrap";
+// import { useLoading, ThreeDots } from "@agney/react-loading";
+import ModalAdd from "../../components/Modal/ProjectModal/AddProject";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
     const [isloading, setIsLoading] = useState(true);
     const [count, setCount] = useState(0);
-    const { containerProps, indicatorEl } = useLoading({
-        loading: isloading,
-        indicator: <ThreeDots width="50" />,
-    });
+
     useEffect(() => {
         const fetchProductList = async () => {
             try {
@@ -29,12 +25,11 @@ function ListProject(props) {
 
                 if (response.code !== "200") {
                     createNotification("error", response.message);
-                    return;
+                } else {
+                    setCount(response.countProject);
+                    setProjects(response.projects);
+                    setIsLoading(!isloading);
                 }
-
-                setCount(response.countProject);
-                setProjects(response.projects);
-                setIsLoading(!isloading);
             } catch (error) {
                 console.log("Failed to fetch product list: ", error);
             }
@@ -49,19 +44,18 @@ function ListProject(props) {
     }
     return (
         <>
-            {isloading && (
-                <section className="loading" {...containerProps}>
-                    {indicatorEl} {/* renders only while loading */}
-                </section>
-            )}
-            <div className="count-Project">
-                <CountProject count={count} />
+            <div className="spinner">
+                {isloading && <Spinner animation="border" />}
             </div>
-            <ModalAdd addProjectClick={handleAddClick} />
             {projects.countProject}
-            {/* <ul className="projects-list"> */}
             <ToastContainer />
-            <Container>
+            <Container className="container">
+                <Row>
+                    <Col xs={3}>
+                        <ModalAdd addProjectClick={handleAddClick} />
+                    </Col>
+                    <Col xs={3}>Tổng số project hiện có: {count}</Col>
+                </Row>
                 <Row>
                     {projects.map((item, index) => (
                         <Col xs={3} key={index}>

@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { Button, Modal } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Contents } from "./MenuIitem";
-import { createNotification } from "../../components/Notification/Notification";
-import projectApi from "../../Api/ProjectApi";
+import { Contents } from "../../../Constants/Item";
+import { createNotification } from "../../Notification/Notification";
+import projectApi from "../../../Api/ProjectApi";
 const schema = yup.object().shape({
     title: yup
         .string()
@@ -36,8 +36,7 @@ function ModalAdd(props) {
             addProjectClick(project);
         }
     }
-
-    const createApi = async (data) => {
+    const onSubmit = async (data) => {
         try {
             let thumbnail = data.thumbnail[0];
             const formData = new FormData();
@@ -55,14 +54,10 @@ function ModalAdd(props) {
             console.log("Failed to fetch product list: ", error.message);
         }
     };
-    const onSubmit = async (data) => {
-        await createApi(data);
-        // await loginApi();
-    };
     return (
         <>
             <Button variant="primary" onClick={handleClick}>
-                Thêm mới project
+                <i className="fas fa-plus"></i>Thêm mới project
             </Button>
             <Modal show={show}>
                 <Modal.Header closeButton>

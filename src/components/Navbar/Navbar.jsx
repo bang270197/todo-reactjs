@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { MenuItems } from "./MenuItem";
+import { NavbarItems } from "../../Constants/Item";
 import "./Navbar.css";
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 
 function Navbar(props) {
@@ -19,7 +19,7 @@ function Navbar(props) {
                 <li className={clicked ? "fas fa-times" : "fas fa-bars"}></li>
             </div>
             <ul className={clicked ? "nav-menu active" : "nav-menu"}>
-                {MenuItems.map((item, index) => {
+                {NavbarItems.map((item, index) => {
                     return (
                         <li key={index}>
                             <Link to={item.url} className={item.cName}>

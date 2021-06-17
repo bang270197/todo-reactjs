@@ -1,6 +1,7 @@
 import React from "react";
-import { Contents } from "./Index";
+import { LoginItem } from "../../Constants/Item";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./Login.css";
@@ -16,6 +17,7 @@ const schema = yup.object().shape({
 });
 
 function Login(props) {
+    const history = useHistory();
     // const history = useHistory();
     // const [body, setBody] = useState();
     const loginApi = async (data) => {
@@ -24,6 +26,7 @@ function Login(props) {
             if (response.code === "200") {
                 localStorage.setItem("access_token", response.accessToken);
                 createNotification("success", response.message);
+                history.push("/project");
             } else {
                 createNotification("error", response.message);
             }
@@ -51,7 +54,7 @@ function Login(props) {
             <h1>Đăng nhập</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                {Contents.inputs.map((input, index) => {
+                {LoginItem.inputs.map((input, index) => {
                     return (
                         <div key={index}>
                             <label className="label">{input.label}</label>
