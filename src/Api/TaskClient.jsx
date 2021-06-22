@@ -8,5 +8,13 @@ const taskApi = {
         const url = `/task/${id}`;
         return axiosClient.post(url, data);
     },
+    updateStatus(data, id) {
+        const url = `/task/status/${id}`;
+        return axiosClient.put(url, data);
+    },
+    delete(id) {
+        const url = `/task/${id}`;
+        return axiosClient.delete(url);
+    },
 };
 export default taskApi;

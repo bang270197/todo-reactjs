@@ -3,3 +3,32 @@
     justify-content: center;
     height: "100%";
 }
+.btn-add {
+    margin-top: 20px;
+}
+.fa-minus-circle {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: rgb(180, 118, 118);
+}
+.fa-minus-circle:hover {
+    transform: scale(1.5, 1.5);
+    -moz-transform: scale(1.5, 1.5);
+    -webkit-transform: scale(1.5, 1.5);
+    -o-transform: scale(1.5, 1.5);
+    -ms-transform: scale(1.5, 1.5);
+}
+.fa-circle {
+    position: absolute;
+    left: -240px;
+}
+.high {
+    color: red;
+}
+.medium {
+    color: orange;
+}
+.low {
+    color: yellow;
+}

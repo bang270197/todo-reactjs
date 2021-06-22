@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import * as yup from "yup";
@@ -18,7 +18,7 @@ const schema = yup.object().shape({
         .min(6, "Detail không được nhỏ hơn 6 ký tự"),
 });
 function AddTask(props) {
-    const { project, handleUpdatePro } = props;
+    const { project, handleClickAdd } = props;
     const [show, setShow] = useState(false);
     const handleClickShow = () => setShow(true);
     const handleClickClose = () => setShow(false);
@@ -36,6 +36,9 @@ function AddTask(props) {
             const response = await taskApi.create(data, id);
             if (response.code === "200") {
                 createNotification("success", response.message);
+                if (handleClickAdd) {
+                    handleClickAdd(response);
+                }
             } else {
                 createNotification("error", response.message);
             }
@@ -48,7 +51,7 @@ function AddTask(props) {
             <button className="btn btn-primary" onClick={handleClickShow}>
                 <i className="fas fa-plus"></i>Thêm task
             </button>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <Modal show={show}>
                 <Modal.Header closeButton>
                     <Modal.Title>Form Add Task</Modal.Title>
