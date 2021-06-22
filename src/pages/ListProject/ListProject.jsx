@@ -12,6 +12,7 @@ import { Col, Container, Row, Spinner } from "react-bootstrap";
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
     const [isloading, setIsLoading] = useState(true);
+    const [status, setStatus] = useState("");
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ function ListProject(props) {
                 } else {
                     setCount(response.countProject);
                     setProjects(response.projects);
-                    setIsLoading(!isloading);
+                    setIsLoading(false);
                 }
             } catch (error) {
                 console.log("Failed to fetch product list: ", error);
@@ -36,12 +37,29 @@ function ListProject(props) {
         };
 
         fetchProductList();
-    }, []);
+    }, [status]);
     function handleAddClick(data) {
         const newProjects = [...projects, data.project];
         setProjects(newProjects);
         setCount(count + 1);
     }
+    const handleUpdate = (data) => {
+        // console.log(data);
+        setStatus(data.title);
+    };
+    const handleDelete = (data) => {
+        console.log(data);
+        setStatus(data.title);
+    };
+    const handleUpdateStaus = async (id) => {
+        const response = await projectApi.updateStaus(id);
+        if (response.code !== "200") {
+            createNotification("error", response.message);
+        } else {
+            setStatus(response.body.status);
+            createNotification("success", response.message);
+        }
+    };
     return (
         <>
             <div className="spinner">
@@ -59,7 +77,12 @@ function ListProject(props) {
                 <Row>
                     {projects.map((item, index) => (
                         <Col xs={3} key={index}>
-                            <Project project={item} />
+                            <Project
+                                project={item}
+                                updateStauts={handleUpdateStaus}
+                                handleUpdatePro={handleUpdate}
+                                handleDeletePro={handleDelete}
+                            />
                         </Col>
                     ))}
                 </Row>

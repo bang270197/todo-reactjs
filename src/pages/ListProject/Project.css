@@ -62,9 +62,15 @@ li {
     bottom: -5px;
     right: -5px;
 }
-.dot-red {
-    color: red;
-}
 .dot-green {
     color: green;
+}
+.dot-yellow {
+    color: yellow;
+}
+.fa-edit {
+    position: absolute;
+    right: 25px;
+    top: -5px;
+    color: blue;
 }

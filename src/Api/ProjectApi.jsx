@@ -16,5 +16,9 @@ const projectApi = {
         const url = `/project/${id}`;
         return axiosClient.put(url, data);
     },
+    updateStaus(id) {
+        const url = `/project/status/${id}`;
+        return axiosClient.put(url);
+    },
 };
 export default projectApi;

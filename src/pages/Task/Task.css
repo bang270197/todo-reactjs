@@ -1,0 +1,5 @@
+.body-task {
+    display: flex;
+    justify-content: center;
+    height: "100%";
+}

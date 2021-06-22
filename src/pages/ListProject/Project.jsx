@@ -12,26 +12,40 @@ Project.propTypes = {
 };
 
 function Project(props) {
-    const { project } = props;
+    const { project, updateStauts, handleUpdatePro, handleDeletePro } = props;
     const history = useHistory();
     const imgUrl =
         "http://localhost:3001/static/" + project.thumbnail.split("/")[2];
     const handleMoveTask = () => {
         history.push(`/task/${project._id}`);
     };
-
+    const updateProject = (id) => {
+        if (updateStauts) {
+            updateStauts(id);
+        }
+    };
+    const handleDelete = (data) => {
+        handleDeletePro(data);
+    };
+    const handleUpdateProject = (data) => {
+        handleUpdatePro(data.projectUpdate);
+    };
     return (
-        <div className="project" onClick={handleMoveTask}>
-            <DeleteProject id={project._id} />
-            <UpdateProject project={project} />
+        <div className="project">
+            <DeleteProject id={project._id} handleDelete={handleDelete} />
+            <UpdateProject
+                project={project}
+                handleUpdatePro={handleUpdateProject}
+            />
             <i
                 className={
                     project.status === "undone"
-                        ? "fas fa-circle dot-red"
+                        ? "fas fa-circle dot-yellow"
                         : "fas fa-circle dot-green"
                 }
+                onClick={() => updateProject(project._id)}
             ></i>
-            <div className="project-img">
+            <div className="project-img" onClick={handleMoveTask}>
                 <img className="img" src={imgUrl} alt={project.title} />
             </div>
             <p className="project_name">{project.title}</p>

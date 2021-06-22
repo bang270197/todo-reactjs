@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import projectApi from "../../../Api/ProjectApi";
+import { ToastContainer } from "react-toastify";
+import taskApi from "../../../Api/TaskClient";
 import { createNotification } from "../../Notification/Notification";
-UpdateProject.propTypes = {};
 const schema = yup.object().shape({
     title: yup
         .string()
@@ -17,57 +17,41 @@ const schema = yup.object().shape({
         .required("Detail không được trống")
         .min(6, "Detail không được nhỏ hơn 6 ký tự"),
 });
-function UpdateProject(props) {
+function AddTask(props) {
     const { project, handleUpdatePro } = props;
     const [show, setShow] = useState(false);
     const handleClickShow = () => setShow(true);
     const handleClickClose = () => setShow(false);
 
-    const imgUrl =
-        "http://localhost:3001/static/" + project.thumbnail.split("/")[2];
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset,
     } = useForm({
         resolver: yupResolver(schema),
     });
-    useEffect(() => {
-        reset({
-            title: project.title,
-            detail: project.detail,
-        });
-    }, []);
-
+    const { id } = useParams();
     const onSubmit = async (data) => {
         try {
-            let thumbnail = data.thumbnail[0];
-            const formData = new FormData();
-            if (typeof thumbnail !== "undefined") {
-                formData.append("thumbnail", thumbnail);
-            }
-            formData.append("title", data.title);
-            formData.append("detail", data.detail);
-            const response = await projectApi.update(formData, project._id);
+            const response = await taskApi.create(data, id);
             if (response.code === "200") {
-                // addProject(response);
                 createNotification("success", response.message);
-                handleClickClose();
-                handleUpdatePro(response);
             } else {
                 createNotification("error", response.message);
             }
-        } catch (error) {
-            console.log("Failed to fetch product list: ", error.message);
+        } catch (err) {
+            console.log("Failed to fetch product list: ", err.message);
         }
     };
     return (
         <>
-            <i className="fas fa-edit" onClick={handleClickShow}></i>
+            <button className="btn btn-primary" onClick={handleClickShow}>
+                <i className="fas fa-plus"></i>Thêm task
+            </button>
+            <ToastContainer />
             <Modal show={show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Form Update project</Modal.Title>
+                    <Modal.Title>Form Add Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,24 +94,22 @@ function UpdateProject(props) {
                                     <p>{errors["detail"]?.message}</p>
                                 </div>
                             </div>
-                            <label className="label">Image</label>
-                            <div className="project-img">
-                                <img
-                                    className="img"
-                                    src={imgUrl}
-                                    alt={project.title}
-                                />
-                            </div>
-                            <input
-                                name="thumbnail"
-                                className="input"
-                                type="file"
-                                {...register("thumbnail")}
-                            ></input>
+                            <label className="label">Priority</label>
+                            <select {...register("priority")}>
+                                <option value="high">high</option>
+                                <option value="medium">medium</option>
+                                <option value="low">low</option>
+                            </select>
+                            <label className="label">Status</label>
+                            <select {...register("status")}>
+                                <option value="new">new</option>
+                                <option value="progress">progress</option>
+                                <option value="done">done</option>
+                            </select>
                         </div>
 
                         <button className="btn btn-primary" type="submit">
-                            Sửa project
+                            Add task
                         </button>
                     </form>
                 </Modal.Body>
@@ -139,4 +121,4 @@ function UpdateProject(props) {
     );
 }
 
-export default UpdateProject;
+export default AddTask;

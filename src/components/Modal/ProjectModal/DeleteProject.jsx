@@ -6,7 +6,7 @@ import { createNotification } from "../../Notification/Notification";
 DeleteProject.propTypes = {};
 
 function DeleteProject(props) {
-    const { id } = props;
+    const { id, handleDelete } = props;
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -16,6 +16,7 @@ function DeleteProject(props) {
         if (response.code === "200") {
             setShow(!show);
             createNotification("success", response.message);
+            handleDelete(response);
         }
     };
     return (
