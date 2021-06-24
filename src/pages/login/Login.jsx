@@ -44,8 +44,6 @@ function Login(props) {
     });
     const onSubmit = async (data) => {
         await loginApi(data);
-        console.log(data);
-
         // await loginApi();
     };
     return (

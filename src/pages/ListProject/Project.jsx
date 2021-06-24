@@ -7,6 +7,7 @@ import { createNotification } from "../../components/Notification/Notification";
 import DeleteProject from "../../components/Modal/ProjectModal/DeleteProject";
 import UpdateProject from "../../components/Modal/ProjectModal/UpdateProject";
 import { useHistory } from "react-router-dom";
+import AddUser from "../../components/Modal/UserModal/AddUser";
 Project.propTypes = {
     project: PropTypes.object.isRequired,
 };
@@ -37,6 +38,7 @@ function Project(props) {
                 project={project}
                 handleUpdatePro={handleUpdateProject}
             />
+            <AddUser id={project._id} />
             <i
                 className={
                     project.status === "undone"

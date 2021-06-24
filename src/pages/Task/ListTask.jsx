@@ -6,6 +6,7 @@ import "./Task.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import AddTask from "../../components/Modal/TaskModal/AddTask";
+import AddUserToTask from "../../components/Modal/TaskModal/AddUserToTask";
 import { ToastContainer } from "react-toastify";
 
 function ListTask(props) {
@@ -229,6 +230,11 @@ function ListTask(props) {
                                                                                                 : ""
                                                                                         }
                                                                                     ></i>
+                                                                                    <AddUserToTask
+                                                                                        id={
+                                                                                            id
+                                                                                        }
+                                                                                    />
                                                                                     {
                                                                                         item.title
                                                                                     }

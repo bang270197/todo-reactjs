@@ -10,10 +10,15 @@ export const NavbarItems = [
         cName: "nav-links",
     },
     {
-        title: "Sign up",
+        title: "Sign up1",
         url: "/sign-up",
         cName: "nav-links-mobile",
     },
+    // {
+    //     title: "Log Out",
+    //     url: "/sign-up",
+    //     cName: "nav-links-logout",
+    // },
 ];
 export const Contents = {
     inputs: [

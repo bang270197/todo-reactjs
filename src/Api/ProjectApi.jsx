@@ -20,5 +20,13 @@ const projectApi = {
         const url = `/project/status/${id}`;
         return axiosClient.put(url);
     },
+    addUserToProject(idProject, iduser) {
+        const url = `/project/${idProject}/user/${iduser}`;
+        return axiosClient.post(url);
+    },
+    getUserByProject(id) {
+        const url = `/project/user/${id}`;
+        return axiosClient.get(url);
+    },
 };
 export default projectApi;

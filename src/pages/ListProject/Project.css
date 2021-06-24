@@ -72,5 +72,18 @@ li {
     position: absolute;
     right: 25px;
     top: -5px;
-    color: blue;
+    color: rgb(127, 127, 207);
+}
+.btn-add-user {
+    position: absolute;
+    top: 110px;
+    right: 60px;
+    opacity: 0;
+}
+.btn-add-user:hover {
+    transition: 1s;
+    opacity: 1;
+}
+.btn-add-user-to-task {
+    position: absolute;
 }

@@ -14,7 +14,7 @@ function ListProject(props) {
     const [isloading, setIsLoading] = useState(true);
     const [status, setStatus] = useState("");
     const [count, setCount] = useState(0);
-
+    const [show, setShow] = useState(false);
     useEffect(() => {
         const fetchProductList = async () => {
             try {
@@ -27,6 +27,7 @@ function ListProject(props) {
                 if (response.code !== "200") {
                     createNotification("error", response.message);
                 } else {
+                    setShow(true);
                     setCount(response.countProject);
                     setProjects(response.projects);
                     setIsLoading(false);
@@ -38,6 +39,7 @@ function ListProject(props) {
 
         fetchProductList();
     }, [status]);
+
     function handleAddClick(data) {
         const newProjects = [...projects, data.project];
         setProjects(newProjects);
@@ -68,15 +70,23 @@ function ListProject(props) {
             {projects.countProject}
             <ToastContainer />
             <Container className="container">
-                <Row>
-                    <Col xs={3}>
-                        <ModalAdd addProjectClick={handleAddClick} />
-                    </Col>
-                    <Col xs={3}>Tổng số project hiện có: {count}</Col>
-                </Row>
+                {show === true && (
+                    <Row>
+                        <Col xs={6} sm={4} md={3}>
+                            <ModalAdd
+                                display
+                                addProjectClick={handleAddClick}
+                            />
+                        </Col>
+                        <Col xs={6} sm={4} md={3}>
+                            Tổng số project hiện có: {count}
+                        </Col>
+                    </Row>
+                )}
+
                 <Row>
                     {projects.map((item, index) => (
-                        <Col xs={3} key={index}>
+                        <Col xs={6} sm={4} md={3} key={index}>
                             <Project
                                 project={item}
                                 updateStauts={handleUpdateStaus}

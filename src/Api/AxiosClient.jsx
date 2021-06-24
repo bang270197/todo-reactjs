@@ -2,13 +2,15 @@ import axios from "axios";
 import queryString from "query-string";
 
 let _accessToken = localStorage.getItem("access_token");
-
+if (_accessToken) {
+    var authorization = "Bearer " + _accessToken;
+}
 // header["authorization"] = "Bearer ";
 const axiosClient = axios.create({
     baseURL: "http://localhost:3001/api",
     headers: {
         "content-type": "application/json; charset=utf-8",
-        authorization: `Bearer ${_accessToken}`,
+        authorization: authorization,
     },
     paramsSerializer: (params) => queryString.stringify(params),
 });
