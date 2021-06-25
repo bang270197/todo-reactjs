@@ -61,7 +61,7 @@ function ModalAdd(props) {
             </Button>
             <Modal show={show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Form Thêm mới project</Modal.Title>
+                    <Modal.Title>Thêm mới project</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>

@@ -54,7 +54,7 @@ function AddTask(props) {
             {/* <ToastContainer /> */}
             <Modal show={show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Form Add Task</Modal.Title>
+                    <Modal.Title>Thêm mới task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,18 +97,22 @@ function AddTask(props) {
                                     <p>{errors["detail"]?.message}</p>
                                 </div>
                             </div>
-                            <label className="label">Priority</label>
-                            <select {...register("priority")}>
-                                <option value="high">high</option>
-                                <option value="medium">medium</option>
-                                <option value="low">low</option>
-                            </select>
-                            <label className="label">Status</label>
-                            <select {...register("status")}>
-                                <option value="new">new</option>
-                                <option value="progress">progress</option>
-                                <option value="done">done</option>
-                            </select>
+                            <div className="select-option">
+                                <label className="label">Priority</label>
+                                <select {...register("priority")}>
+                                    <option value="high">high</option>
+                                    <option value="medium">medium</option>
+                                    <option value="low">low</option>
+                                </select>
+                            </div>
+                            <div className="select-option">
+                                <label className="label">Status</label>
+                                <select {...register("status")}>
+                                    <option value="new">new</option>
+                                    <option value="progress">progress</option>
+                                    <option value="done">done</option>
+                                </select>
+                            </div>
                         </div>
 
                         <button className="btn btn-primary" type="submit">

@@ -10,7 +10,7 @@ export const NavbarItems = [
         cName: "nav-links",
     },
     {
-        title: "Sign up1",
+        title: "Sign up",
         url: "/sign-up",
         cName: "nav-links-mobile",
     },

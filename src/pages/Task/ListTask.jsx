@@ -8,11 +8,12 @@ import { v4 as uuidv4 } from "uuid";
 import AddTask from "../../components/Modal/TaskModal/AddTask";
 import AddUserToTask from "../../components/Modal/TaskModal/AddUserToTask";
 import { ToastContainer } from "react-toastify";
-
+import { Col, Container, Row } from "react-bootstrap";
 function ListTask(props) {
     const { id } = useParams();
     const [columns, setColumns] = useState({});
     const [status, setStatus] = useState("");
+    const [addUser, setAddUser] = useState({});
     const onDragEnd = async (result, columns, setColumns) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -76,6 +77,10 @@ function ListTask(props) {
         }
     };
 
+    const clickAddUser = (data) => {
+        setAddUser(data);
+    };
+
     useEffect(() => {
         const fetchTaskList = async () => {
             try {
@@ -118,146 +123,193 @@ function ListTask(props) {
         };
 
         fetchTaskList();
-    }, [status]);
+    }, [status, addUser]);
 
     return (
-        <>
-            <div className="btn-add">
-                <AddTask handleClickAdd={onClickAdd} />
-            </div>
-            <ToastContainer />
-            <div className="body-task">
-                <DragDropContext
-                    onDragEnd={(result) =>
-                        onDragEnd(result, columns, setColumns)
-                    }
-                >
-                    {Object.entries(columns).map(
-                        ([columnId, column], index) => {
-                            return (
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                    }}
-                                    key={index}
-                                >
-                                    <h2>{column.name}</h2>
-                                    <div style={{ margin: 8 }}>
-                                        <Droppable
-                                            droppableId={columnId}
-                                            key={columnId}
+        <div className="body-list-task">
+            <Container className="container">
+                <Row>
+                    <Col md={4} xs={12}>
+                        <div className="btn-add">
+                            <AddTask handleClickAdd={onClickAdd} />
+                        </div>
+                    </Col>
+                </Row>
+
+                <ToastContainer />
+                <div className="body-task">
+                    <Row>
+                        <DragDropContext
+                            onDragEnd={(result) =>
+                                onDragEnd(result, columns, setColumns)
+                            }
+                        >
+                            {Object.entries(columns).map(
+                                ([columnId, column], index) => {
+                                    return (
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                // alignItems: "center",
+                                            }}
+                                            key={index}
                                         >
-                                            {(provided, snapshot) => {
-                                                return (
-                                                    <div
-                                                        {...provided.droppableProps}
-                                                        ref={provided.innerRef}
-                                                        style={{
-                                                            background:
-                                                                snapshot.isDraggingOver
-                                                                    ? "lightblue"
-                                                                    : "lightgrey",
-                                                            padding: 4,
-                                                            width: 250,
-                                                            minHeight: 500,
-                                                        }}
+                                            <Col md={4} xs={12}>
+                                                <h4 className="title-column">
+                                                    {column.name}
+                                                </h4>
+                                                <div style={{ margin: 20 }}>
+                                                    <Droppable
+                                                        droppableId={columnId}
+                                                        key={columnId}
                                                     >
-                                                        {column.items.map(
-                                                            (item, index) => {
-                                                                return (
-                                                                    <Draggable
-                                                                        key={
-                                                                            item._id
-                                                                        }
-                                                                        draggableId={
-                                                                            item._id
-                                                                        }
-                                                                        index={
+                                                        {(
+                                                            provided,
+                                                            snapshot
+                                                        ) => {
+                                                            return (
+                                                                <div
+                                                                    {...provided.droppableProps}
+                                                                    ref={
+                                                                        provided.innerRef
+                                                                    }
+                                                                    style={{
+                                                                        background:
+                                                                            snapshot.isDraggingOver
+                                                                                ? "#c4c7d1"
+                                                                                : "#ebecf0",
+                                                                        padding: 3,
+                                                                        width: 250,
+                                                                        minHeight: 620,
+                                                                    }}
+                                                                    className="column-div"
+                                                                >
+                                                                    {column.items.map(
+                                                                        (
+                                                                            item,
                                                                             index
-                                                                        }
-                                                                    >
-                                                                        {(
-                                                                            provided,
-                                                                            snapshot
                                                                         ) => {
                                                                             return (
-                                                                                <div
-                                                                                    ref={
-                                                                                        provided.innerRef
+                                                                                <Draggable
+                                                                                    key={
+                                                                                        item._id
                                                                                     }
-                                                                                    {...provided.draggableProps}
-                                                                                    {...provided.dragHandleProps}
-                                                                                    style={{
-                                                                                        userSelect:
-                                                                                            "none",
-                                                                                        padding: 16,
-                                                                                        margin: "0 0 8px 0",
-                                                                                        minHeight:
-                                                                                            "50px",
-                                                                                        backgroundColor:
-                                                                                            snapshot.isDragging
-                                                                                                ? "#263B4A"
-                                                                                                : "#456C86",
-                                                                                        color: "white",
-                                                                                        position:
-                                                                                            "relative",
-                                                                                        ...provided
-                                                                                            .draggableProps
-                                                                                            .style,
-                                                                                    }}
+                                                                                    draggableId={
+                                                                                        item._id
+                                                                                    }
+                                                                                    index={
+                                                                                        index
+                                                                                    }
                                                                                 >
-                                                                                    <i
-                                                                                        className="fas fa-minus-circle"
-                                                                                        onClick={() =>
-                                                                                            onClickDelete(
-                                                                                                item._id
-                                                                                            )
-                                                                                        }
-                                                                                    ></i>
-                                                                                    <i
-                                                                                        className={
-                                                                                            item.priority ===
-                                                                                            "high"
-                                                                                                ? "fas fa-circle high"
-                                                                                                : item.priority ===
-                                                                                                  "medium"
-                                                                                                ? "fas fa-circle medium"
-                                                                                                : item.priority ===
-                                                                                                  "low"
-                                                                                                ? "fas fa-circle low"
-                                                                                                : ""
-                                                                                        }
-                                                                                    ></i>
-                                                                                    <AddUserToTask
-                                                                                        id={
-                                                                                            id
-                                                                                        }
-                                                                                    />
-                                                                                    {
-                                                                                        item.title
-                                                                                    }
-                                                                                </div>
+                                                                                    {(
+                                                                                        provided,
+                                                                                        snapshot
+                                                                                    ) => {
+                                                                                        return (
+                                                                                            <div
+                                                                                                ref={
+                                                                                                    provided.innerRef
+                                                                                                }
+                                                                                                {...provided.draggableProps}
+                                                                                                {...provided.dragHandleProps}
+                                                                                                style={{
+                                                                                                    userSelect:
+                                                                                                        "none",
+                                                                                                    padding: 16,
+                                                                                                    margin: "0 0 8px 0",
+                                                                                                    minHeight:
+                                                                                                        "50px",
+                                                                                                    backgroundColor:
+                                                                                                        snapshot.isDragging
+                                                                                                            ? "#9abbf4"
+                                                                                                            : "#ffffff",
+                                                                                                    color: "black",
+                                                                                                    position:
+                                                                                                        "relative",
+                                                                                                    ...provided
+                                                                                                        .draggableProps
+                                                                                                        .style,
+                                                                                                }}
+                                                                                            >
+                                                                                                <i
+                                                                                                    className="fas fa-minus-circle"
+                                                                                                    onClick={() =>
+                                                                                                        onClickDelete(
+                                                                                                            item._id
+                                                                                                        )
+                                                                                                    }
+                                                                                                ></i>
+                                                                                                <i
+                                                                                                    className={
+                                                                                                        item.priority ===
+                                                                                                        "high"
+                                                                                                            ? "fas fa-long-arrow-alt-up high"
+                                                                                                            : item.priority ===
+                                                                                                              "medium"
+                                                                                                            ? "fas fa-long-arrow-alt-up medium"
+                                                                                                            : item.priority ===
+                                                                                                              "low"
+                                                                                                            ? "fas fa-long-arrow-alt-up low"
+                                                                                                            : ""
+                                                                                                    }
+                                                                                                ></i>
+                                                                                                <AddUserToTask
+                                                                                                    id={
+                                                                                                        id
+                                                                                                    }
+                                                                                                    taskId={
+                                                                                                        item._id
+                                                                                                    }
+                                                                                                    handleAddUser={
+                                                                                                        clickAddUser
+                                                                                                    }
+                                                                                                />
+                                                                                                {typeof item.user ===
+                                                                                                "undefined" ? (
+                                                                                                    <p className="alert-user-null">
+                                                                                                        Chưa
+                                                                                                        gán
+                                                                                                        user
+                                                                                                    </p>
+                                                                                                ) : (
+                                                                                                    <p className="alert-user-null">
+                                                                                                        {
+                                                                                                            item
+                                                                                                                .user
+                                                                                                                .username
+                                                                                                        }
+                                                                                                    </p>
+                                                                                                )}
+
+                                                                                                {
+                                                                                                    item.title
+                                                                                                }
+                                                                                            </div>
+                                                                                        );
+                                                                                    }}
+                                                                                </Draggable>
                                                                             );
-                                                                        }}
-                                                                    </Draggable>
-                                                                );
-                                                            }
-                                                        )}
-                                                        {provided.placeholder}
-                                                    </div>
-                                                );
-                                            }}
-                                        </Droppable>
-                                    </div>
-                                </div>
-                            );
-                        }
-                    )}
-                </DragDropContext>
-            </div>
-        </>
+                                                                        }
+                                                                    )}
+                                                                    {
+                                                                        provided.placeholder
+                                                                    }
+                                                                </div>
+                                                            );
+                                                        }}
+                                                    </Droppable>
+                                                </div>
+                                            </Col>
+                                        </div>
+                                    );
+                                }
+                            )}
+                        </DragDropContext>
+                    </Row>
+                </div>
+            </Container>
+        </div>
     );
 }
 

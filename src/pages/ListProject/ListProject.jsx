@@ -70,19 +70,16 @@ function ListProject(props) {
             {projects.countProject}
             <ToastContainer />
             <Container className="container">
-                {show === true && (
-                    <Row>
-                        <Col xs={6} sm={4} md={3}>
-                            <ModalAdd
-                                display
-                                addProjectClick={handleAddClick}
-                            />
-                        </Col>
-                        <Col xs={6} sm={4} md={3}>
-                            Tổng số project hiện có: {count}
-                        </Col>
-                    </Row>
-                )}
+                {/* {show === true && ( */}
+                <Row>
+                    <Col xs={6} sm={4} md={3}>
+                        <ModalAdd display addProjectClick={handleAddClick} />
+                    </Col>
+                    <Col xs={6} sm={4} md={3}>
+                        Tổng số project hiện có: {count}
+                    </Col>
+                </Row>
+                {/* )} */}
 
                 <Row>
                     {projects.map((item, index) => (

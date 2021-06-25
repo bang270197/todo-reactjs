@@ -16,5 +16,9 @@ const taskApi = {
         const url = `/task/${id}`;
         return axiosClient.delete(url);
     },
+    addUserToTask(idTask, idUser) {
+        const url = `/task/${idTask}/user/${idUser}`;
+        return axiosClient.post(url);
+    },
 };
 export default taskApi;
