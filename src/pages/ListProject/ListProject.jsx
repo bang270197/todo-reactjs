@@ -11,7 +11,7 @@ import { Col, Container, Row, Spinner } from "react-bootstrap";
 
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
-    const [isloading, setIsLoading] = useState(true);
+    // const [isloading, setIsLoading] = useState(0);
     const [status, setStatus] = useState("");
     const [count, setCount] = useState(0);
     const [show, setShow] = useState(false);
@@ -30,7 +30,7 @@ function ListProject(props) {
                     setShow(true);
                     setCount(response.countProject);
                     setProjects(response.projects);
-                    setIsLoading(false);
+                    // setIsLoading(false);
                 }
             } catch (error) {
                 console.log("Failed to fetch product list: ", error);
@@ -44,14 +44,16 @@ function ListProject(props) {
         const newProjects = [...projects, data.project];
         setProjects(newProjects);
         setCount(count + 1);
+        // setStatus(data.project);
     }
     const handleUpdate = (data) => {
-        // console.log(data);
         setStatus(data.title);
     };
     const handleDelete = (data) => {
-        console.log(data);
-        setStatus(data.title);
+        const newProject = projects.filter((pro) => pro._id !== data._id);
+        setProjects(newProject);
+        setCount(count - 1);
+        // setStatus(data);
     };
     const handleUpdateStaus = async (id) => {
         const response = await projectApi.updateStaus(id);
@@ -65,7 +67,8 @@ function ListProject(props) {
     return (
         <>
             <div className="spinner">
-                {isloading && <Spinner animation="border" />}
+                {/* {isloading && <Spinner animation="border" />} */}
+                {count === 0 && "Chưa có project nào"}
             </div>
             {projects.countProject}
             <ToastContainer />
@@ -83,7 +86,7 @@ function ListProject(props) {
 
                 <Row>
                     {projects.map((item, index) => (
-                        <Col xs={6} sm={4} md={3} key={index}>
+                        <Col sm={12} md={4} lg={3} xs={12} key={index}>
                             <Project
                                 project={item}
                                 updateStauts={handleUpdateStaus}

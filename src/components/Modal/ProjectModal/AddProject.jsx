@@ -28,6 +28,7 @@ function ModalAdd(props) {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         resolver: yupResolver(schema),
     });
@@ -46,6 +47,7 @@ function ModalAdd(props) {
             const response = await projectApi.create(formData);
             if (response.code === "200") {
                 addProject(response);
+                reset({});
                 createNotification("success", response.message);
             } else {
                 createNotification("error", response.message);

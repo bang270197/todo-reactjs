@@ -16,7 +16,7 @@ function DeleteProject(props) {
         if (response.code === "200") {
             setShow(!show);
             createNotification("success", response.message);
-            handleDelete(response);
+            handleDelete(response.body);
         }
     };
     return (
