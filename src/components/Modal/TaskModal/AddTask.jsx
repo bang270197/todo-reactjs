@@ -27,6 +27,7 @@ function AddTask(props) {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         resolver: yupResolver(schema),
     });
@@ -35,6 +36,7 @@ function AddTask(props) {
         try {
             const response = await taskApi.create(data, id);
             if (response.code === "200") {
+                reset({});
                 createNotification("success", response.message);
                 if (handleClickAdd) {
                     handleClickAdd(response);

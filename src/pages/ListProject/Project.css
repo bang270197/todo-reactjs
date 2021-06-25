@@ -23,6 +23,8 @@ li {
     cursor: pointer;
     box-shadow: 10px 10px #d3d9df;
     position: relative;
+
+    min-height: 300px;
 }
 .fa-trash {
     position: absolute;
@@ -76,11 +78,17 @@ li {
     top: -5px;
     color: rgb(127, 127, 207);
 }
+.add-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .btn-add-user {
     position: absolute;
-    top: 110px;
-    right: 60px;
+    top: 50%;
     opacity: 0;
+    transform: translateX(-50%);
+    transform: translateY(-50%);
 }
 .btn-add-user:hover {
     transition: 1s;

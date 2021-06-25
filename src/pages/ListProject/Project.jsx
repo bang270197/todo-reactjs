@@ -38,7 +38,9 @@ function Project(props) {
                 project={project}
                 handleUpdatePro={handleUpdateProject}
             />
-            <AddUser id={project._id} />
+            <div className="add-user">
+                <AddUser id={project._id} />
+            </div>
             <i
                 className={
                     project.status === "undone"

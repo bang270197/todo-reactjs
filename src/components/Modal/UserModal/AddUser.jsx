@@ -73,6 +73,7 @@ function AddUser(props) {
             >
                 <i className="fas fa-plus"></i>Thêm user
             </Button>
+
             <Modal show={show}>
                 <Modal.Header closeButton>
                     <Modal.Title>Danh sách User</Modal.Title>
@@ -86,14 +87,12 @@ function AddUser(props) {
                                     <option key={index} value={item._id}>
                                         {item.username}
                                     </option>
-                                    // <option value="456">ccc</option>
-                                    // <option value="789">aa</option>
                                 ))}
                             </select>
                         </div>
 
                         <button className="btn btn-primary" type="submit">
-                            Add task
+                            Add user
                         </button>
                     </form>
                 </Modal.Body>

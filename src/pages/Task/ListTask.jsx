@@ -180,8 +180,10 @@ function ListTask(props) {
                                                                                 ? "#c4c7d1"
                                                                                 : "#ebecf0",
                                                                         padding: 3,
+                                                                        overflow:
+                                                                            "scroll",
                                                                         width: 250,
-                                                                        minHeight: 620,
+                                                                        height: 500,
                                                                     }}
                                                                     className="column-div"
                                                                 >
