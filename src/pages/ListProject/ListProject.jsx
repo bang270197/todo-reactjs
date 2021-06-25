@@ -44,10 +44,20 @@ function ListProject(props) {
         const newProjects = [...projects, data.project];
         setProjects(newProjects);
         setCount(count + 1);
-        // setStatus(data.project);
     }
     const handleUpdate = (data) => {
-        setStatus(data.title);
+        const { thumbnail, title, detail } = data;
+        const newProject = projects.filter((pro) => {
+            if (pro._id === data._id) {
+                pro.thumbnail = thumbnail;
+                pro.title = title;
+                pro.detail = detail;
+                console.log(pro);
+            }
+            return pro;
+        });
+
+        setProjects(newProject);
     };
     const handleDelete = (data) => {
         const newProject = projects.filter((pro) => pro._id !== data._id);
@@ -60,7 +70,14 @@ function ListProject(props) {
         if (response.code !== "200") {
             createNotification("error", response.message);
         } else {
-            setStatus(response.body.status);
+            // setStatus(response.body.status);
+            const newProject = projects.filter((pro) => {
+                if (pro._id === id) {
+                    pro.status = pro.status === "done" ? "undone" : "done";
+                }
+                return pro;
+            });
+            setProjects(newProject);
             createNotification("success", response.message);
         }
     };
