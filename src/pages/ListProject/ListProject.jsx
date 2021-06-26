@@ -85,10 +85,10 @@ function ListProject(props) {
     };
     return (
         <>
-            <div className="spinner">
+            <p className="spinner">
                 {/* {isloading && <Spinner animation="border" />} */}
                 {count === 0 && "Chưa có project nào"}
-            </div>
+            </p>
             {projects.countProject}
             <ToastContainer />
 
@@ -108,16 +108,20 @@ function ListProject(props) {
                 {/* )} */}
 
                 <Row>
-                    {projects.map((item, index) => (
-                        <Col sm={12} md={4} lg={3} xs={12} key={index}>
-                            <Project
-                                project={item}
-                                updateStauts={handleUpdateStaus}
-                                handleUpdatePro={handleUpdate}
-                                handleDeletePro={handleDelete}
-                            />
-                        </Col>
-                    ))}
+                    {count === 0 ? (
+                        <p className="spinner">Chưa có project nào</p>
+                    ) : (
+                        projects.map((item, index) => (
+                            <Col sm={12} md={4} lg={3} xs={12} key={index}>
+                                <Project
+                                    project={item}
+                                    updateStauts={handleUpdateStaus}
+                                    handleUpdatePro={handleUpdate}
+                                    handleDeletePro={handleDelete}
+                                />
+                            </Col>
+                        ))
+                    )}
                 </Row>
             </Container>
             {/* </ul> */}

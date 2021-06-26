@@ -82,16 +82,24 @@ function AddUser(props) {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <label className="label">Danh sách user</label>
-                            <select {...register("user")}>
-                                {users.map((item, index) => (
-                                    <option key={index} value={item._id}>
-                                        {item.username}
-                                    </option>
-                                ))}
-                            </select>
+                            {users.length === 0 ? (
+                                <p className="no-user">Chưa có user nào</p>
+                            ) : (
+                                <select {...register("user")}>
+                                    {users.map((item, index) => (
+                                        <option key={index} value={item._id}>
+                                            {item.username}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
                         </div>
 
-                        <button className="btn btn-primary" type="submit">
+                        <button
+                            className="btn btn-primary"
+                            type="submit"
+                            disabled={users.length === 0 ? true : false}
+                        >
                             Add user
                         </button>
                     </form>
