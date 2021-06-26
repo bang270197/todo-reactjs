@@ -8,7 +8,7 @@ import "./Login.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../Api/AuthApi";
-
+import { Link } from "react-router-dom";
 import { createNotification } from "../../components/Notification/Notification";
 
 const schema = yup.object().shape({
@@ -81,6 +81,7 @@ function Login(props) {
                     Đăng nhập
                 </button>
             </form>
+            <Link to={"/sign-up"}>Đăng ký tài khoản</Link>
         </div>
     );
 }

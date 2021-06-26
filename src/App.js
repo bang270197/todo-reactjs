@@ -6,10 +6,22 @@ import ListTask from "./pages/Task/ListTask.jsx";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import Register from "./pages/Register/Register";
+import { isLoggedIn } from "./Constants/AuthenService";
+const ACCESS_TOKEN_KEY = "access_token";
 
 function App() {
-    const checkAuth = () => {};
-    const auth = false;
+    // const getAccessToken = () => {
+    //     return localStorage.getItem(ACCESS_TOKEN_KEY);
+    // };
+    // const isLoggedIn = () => {
+    //     const idToken = getAccessToken();
+    //     if (idToken === null || typeof idToken === "undefined") {
+    //         return false;
+    //     }
+    //     return true;
+    // };
+
+    // const auth = true;
     return (
         <div className="App">
             <Router>
@@ -20,6 +32,7 @@ function App() {
                         {/* {auth ? <ListProject /> : <Login />} */}
                         <ListProject />
                     </Route>
+
                     <Route path="/tasks" exact>
                         <ListTask />
                     </Route>

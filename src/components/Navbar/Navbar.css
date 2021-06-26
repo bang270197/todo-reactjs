@@ -129,7 +129,16 @@
     Button {
         display: none;
     }
+    .btn-log-out {
+        opacity: 0;
+    }
+    .info-user {
+        opacity: 0;
+    }
 }
 .navbar-logo {
     color: #fff;
+}
+.btn-log-out {
+    margin-right: 10px;
 }

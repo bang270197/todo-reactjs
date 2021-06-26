@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createNotification } from "../../components/Notification/Notification";
 import taskApi from "../../Api/TaskClient";
+import projectApi from "../../Api/ProjectApi";
 import "./Task.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import AddTask from "../../components/Modal/TaskModal/AddTask";
 import AddUserToTask from "../../components/Modal/TaskModal/AddUserToTask";
 import { ToastContainer } from "react-toastify";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
+
 function ListTask(props) {
     const { id } = useParams();
     const [columns, setColumns] = useState({});
     const [status, setStatus] = useState("");
+    const [statusDelete, setStatusDelete] = useState({});
     const [addUser, setAddUser] = useState({});
+    const [countTask, setcountTask] = useState(0);
+    const [countUser, setCountUser] = useState(0);
     const onDragEnd = async (result, columns, setColumns) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -72,20 +77,25 @@ function ListTask(props) {
         if (response.code !== "200") {
             createNotification("error", response.message);
         } else {
-            setStatus(response.code);
+            console.log(response.body);
+            setStatusDelete(response.body);
+            setcountTask(countTask - 1);
             createNotification("success", response.message);
         }
     };
 
     const clickAddUser = (data) => {
         setAddUser(data);
+        setcountTask(countTask + 1);
     };
 
     useEffect(() => {
         const fetchTaskList = async () => {
             try {
                 const response = await taskApi.getAll(id);
-
+                const count = await projectApi.countTaskAndUser(id);
+                setCountUser(count.countUser);
+                setcountTask(count.countTask);
                 if (response.code !== "200") {
                     createNotification("error", response.message);
                 } else {
@@ -115,6 +125,7 @@ function ListTask(props) {
                             items: done,
                         },
                     };
+
                     setColumns(columnFromBackend);
                 }
             } catch (error) {
@@ -123,10 +134,25 @@ function ListTask(props) {
         };
 
         fetchTaskList();
-    }, [status, addUser]);
+    }, [status, addUser, statusDelete]);
 
     return (
         <div className="body-list-task">
+            <Container>
+                <Row>
+                    <Col md={4} xs={12}>
+                        <div className="total-task">
+                            Tổng số task hiện có:{countTask}
+                        </div>
+                    </Col>
+
+                    <Col md={4} xs={12}>
+                        <div className="total-task">
+                            Tổng số User trong project:{countUser}
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
             <Container className="container">
                 <Row>
                     <Col md={4} xs={12}>
@@ -159,6 +185,7 @@ function ListTask(props) {
                                                 <h4 className="title-column">
                                                     {column.name}
                                                 </h4>
+
                                                 <div style={{ margin: 20 }}>
                                                     <Droppable
                                                         droppableId={columnId}

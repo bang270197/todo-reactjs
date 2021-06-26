@@ -28,5 +28,9 @@ const projectApi = {
         const url = `/project/user/${id}`;
         return axiosClient.get(url);
     },
+    countTaskAndUser(id) {
+        const url = `/project/count/${id}`;
+        return axiosClient.get(url);
+    },
 };
 export default projectApi;

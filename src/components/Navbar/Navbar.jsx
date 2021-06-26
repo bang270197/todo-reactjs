@@ -5,6 +5,7 @@ import "./Navbar.css";
 import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import UpdateUser from "../Modal/UserModal/UpdateUser";
 
 function Navbar(props) {
     const [clicked, setClicked] = useState(false);
@@ -35,10 +36,11 @@ function Navbar(props) {
                     );
                 })}
             </ul>
-            <Button>
-                <Link to={"/sign-up"}>Sign Up</Link>
-            </Button>
-            <Button onClick={() => handleLogOut()}>Log Out</Button>
+            <div className="btn-log-out">
+                <Button onClick={() => handleLogOut()}>
+                    <i className="fas fa-sign-out-alt"></i>Log Out
+                </Button>
+            </div>
         </nav>
     );
 }

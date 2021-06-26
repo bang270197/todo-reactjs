@@ -141,3 +141,7 @@ button[type="button"] {
     padding: 10px 20px;
     border-radius: 4px;
 }
+.total-task {
+    margin-left: 20px;
+    color: #440bc9;
+}

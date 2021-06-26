@@ -6,15 +6,17 @@ import { ToastContainer } from "react-toastify";
 import Project from "./Project";
 import "./Project.css";
 // import { useLoading, ThreeDots } from "@agney/react-loading";
+import UpdateUser from "../../components/Modal/UserModal/UpdateUser";
 import ModalAdd from "../../components/Modal/ProjectModal/AddProject";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
-
+import { useParams } from "react-router-dom";
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
     // const [isloading, setIsLoading] = useState(0);
     const [status, setStatus] = useState("");
     const [count, setCount] = useState(0);
     const [show, setShow] = useState(false);
+
     useEffect(() => {
         const fetchProductList = async () => {
             try {
@@ -89,14 +91,18 @@ function ListProject(props) {
             </div>
             {projects.countProject}
             <ToastContainer />
+
+            <div>
+                <UpdateUser />
+            </div>
             <Container className="container">
                 {/* {show === true && ( */}
                 <Row>
-                    <Col xs={6} sm={4} md={3}>
+                    <Col xs={12} sm={4} md={4}>
                         <ModalAdd display addProjectClick={handleAddClick} />
                     </Col>
-                    <Col xs={6} sm={4} md={3}>
-                        Tổng số project hiện có: {count}
+                    <Col xs={12} sm={4} md={3}>
+                        Project hiện có: {count}
                     </Col>
                 </Row>
                 {/* )} */}
@@ -114,7 +120,6 @@ function ListProject(props) {
                     ))}
                 </Row>
             </Container>
-
             {/* </ul> */}
         </>
     );
