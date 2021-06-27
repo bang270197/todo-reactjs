@@ -7,24 +7,34 @@ import Project from "./Project";
 import "./Project.css";
 // import { useLoading, ThreeDots } from "@agney/react-loading";
 import UpdateUser from "../../components/Modal/UserModal/UpdateUser";
+import Pagination from "../../pages/Pagination/Pagination";
 import ModalAdd from "../../components/Modal/ProjectModal/AddProject";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
     // const [isloading, setIsLoading] = useState(0);
-    const [status, setStatus] = useState("");
+    // const [status, setStatus] = useState("");
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 8,
+        totalRows: 1,
+    });
+    const [filters, setFilters] = useState({
+        page: 1,
+        limit: 8,
+    });
     const [count, setCount] = useState(0);
     const [show, setShow] = useState(false);
 
     useEffect(() => {
         const fetchProductList = async () => {
             try {
-                const params = {
-                    limit: 12,
-                    page: 1,
-                };
-                const response = await projectApi.getAll(params);
+                // const params = {
+                //     limit: 8,
+                //     page: 1,
+                // };
+                const response = await projectApi.getAll(filters);
 
                 if (response.code !== "200") {
                     createNotification("error", response.message);
@@ -32,6 +42,7 @@ function ListProject(props) {
                     setShow(true);
                     setCount(response.countProject);
                     setProjects(response.projects);
+                    setPagination(response.pagination);
                     // setIsLoading(false);
                 }
             } catch (error) {
@@ -40,7 +51,11 @@ function ListProject(props) {
         };
 
         fetchProductList();
-    }, [status]);
+    }, [filters, count]);
+
+    function handlePageChange(newPage) {
+        setFilters({ ...filters, page: newPage });
+    }
 
     function handleAddClick(data) {
         const newProjects = [...projects, data.project];
@@ -65,14 +80,12 @@ function ListProject(props) {
         const newProject = projects.filter((pro) => pro._id !== data._id);
         setProjects(newProject);
         setCount(count - 1);
-        // setStatus(data);
     };
     const handleUpdateStaus = async (id) => {
         const response = await projectApi.updateStaus(id);
         if (response.code !== "200") {
             createNotification("error", response.message);
         } else {
-            // setStatus(response.body.status);
             const newProject = projects.filter((pro) => {
                 if (pro._id === id) {
                     pro.status = pro.status === "done" ? "undone" : "done";
@@ -95,15 +108,27 @@ function ListProject(props) {
             <div>
                 <UpdateUser />
             </div>
+
             <Container className="container">
                 {/* {show === true && ( */}
                 <Row>
-                    <Col xs={12} sm={4} md={4}>
+                    <Col xs={12} sm={3} md={3}>
                         <ModalAdd display addProjectClick={handleAddClick} />
                     </Col>
-                    <Col xs={12} sm={4} md={3}>
+                    <Col xs={12} sm={3} md={3} className="total-project">
                         Project hiện có: {count}
                     </Col>
+                    <Col xs={12} sm={3} md={3}></Col>
+                    <Col xs={12} sm={3} md={3}>
+                        <Pagination
+                            pagination={pagination}
+                            onPageChange={handlePageChange}
+                        />
+                    </Col>
+                    {/* <Col xs={12} sm={4} md={3} className="total-project"></Col>
+                    <Col xs={12} sm={4} md={3} className="total-project">
+                        
+                    </Col> */}
                 </Row>
                 {/* )} */}
 
