@@ -10,10 +10,16 @@ import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../Api/AuthApi";
 import { Link } from "react-router-dom";
 import { createNotification } from "../../components/Notification/Notification";
-
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 const schema = yup.object().shape({
-    username: yup.string().required().min(6),
-    password: yup.string().required().min(6),
+    username: yup
+        .string()
+        .required()
+        .min(6, "username không được nhỏ hơn 6 ký tự"),
+    password: yup
+        .string()
+        .required()
+        .min(6, "password không được nhỏ hơn 6 ký tự"),
 });
 
 function Login(props) {
@@ -54,20 +60,18 @@ function Login(props) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 {LoginItem.inputs.map((input, index) => {
                     return (
-                        <div key={index}>
-                            <label className="label">{input.label}</label>
+                        <div key={index} className="container">
+                            <label className="label-login">{input.label}</label>
                             <input
                                 name={input.name}
-                                className="input"
+                                className="input-login"
                                 type={input.type}
                                 {...register(`${input.name}`)}
                             ></input>
                             <div className="alter">
                                 <div
                                     className={
-                                        errors[input.name]
-                                            ? "alert alert-danger"
-                                            : ""
+                                        errors[input.name] ? "danger" : ""
                                     }
                                     role="alert"
                                 >

@@ -6,3 +6,8 @@
     display: flex;
     justify-content: center;
 }
+
+.input-register {
+    margin: 0 auto;
+    width: 300px;
+}

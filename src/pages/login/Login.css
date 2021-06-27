@@ -6,3 +6,14 @@
     display: flex;
     justify-content: center;
 }
+.danger {
+    color: red;
+}
+.label-login {
+    width: 300px;
+}
+.input-login {
+    width: 300px;
+    /* margin-left: 170px; */
+    margin: 0 auto;
+}

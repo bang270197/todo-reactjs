@@ -53,19 +53,19 @@ function Register(props) {
                 {RegisterItem.inputs.map((input, index) => {
                     return (
                         <div key={index}>
-                            <label className="label">{input.label}</label>
+                            <label className="label-regiter">
+                                {input.label}
+                            </label>
                             <input
                                 name={input.name}
-                                className="input"
+                                className="input-register"
                                 type={input.type}
                                 {...register(`${input.name}`)}
                             ></input>
                             <div className="alter">
                                 <div
                                     className={
-                                        errors[input.name]
-                                            ? "alert alert-danger"
-                                            : ""
+                                        errors[input.name] ? "danger" : ""
                                     }
                                     role="alert"
                                 >
