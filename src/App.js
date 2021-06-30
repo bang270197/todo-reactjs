@@ -28,11 +28,11 @@ function App() {
                 <Navbar />
                 <Switch>
                     <Route path="/" component={Login} exact />
+
                     <Route path="/project" exact>
                         {/* {auth ? <ListProject /> : <Login />} */}
                         <ListProject />
                     </Route>
-
                     <Route path="/tasks" exact>
                         <ListTask />
                     </Route>

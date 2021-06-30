@@ -50,13 +50,13 @@ function UpdateProject(props) {
             formData.append("title", data.title);
             formData.append("detail", data.detail);
             const response = await projectApi.update(formData, project._id);
-            if (response.code === "200") {
+            if (response.data.code === "200") {
                 // addProject(response);
-                createNotification("success", response.message);
+                createNotification("success", response.data.message);
                 handleClickClose();
-                handleUpdatePro(response);
+                handleUpdatePro(response.data);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error.message);

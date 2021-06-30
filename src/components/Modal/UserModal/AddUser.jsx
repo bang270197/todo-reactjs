@@ -37,7 +37,7 @@ function AddUser(props) {
         const fetchUserList = async () => {
             try {
                 const response = await userApi.getAll();
-                setUser(response.body);
+                setUser(response.data.body);
 
                 // if (response.code !== "200") {
                 //     createNotification("error", response.message);
@@ -55,10 +55,10 @@ function AddUser(props) {
     const onSubmit = async (data) => {
         try {
             const response = await projectApi.addUserToProject(id, data.user);
-            if (response.code === "200") {
-                createNotification("success", response.message);
+            if (response.data.code === "200") {
+                createNotification("success", response.data.message);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error.message);

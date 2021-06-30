@@ -13,10 +13,13 @@ function DeleteProject(props) {
     const handleShow = () => setShow(true);
     const handleClickDelete = async (id) => {
         const response = await projectApi.delete(id);
-        if (response.code === "200") {
+        if (response.data.code === "200") {
             setShow(!show);
-            createNotification("success", response.message);
-            handleDelete(response.body);
+            createNotification("success", response.data.message);
+            handleDelete(response.data);
+        } else {
+            setShow(!show);
+            createNotification("error", response.data.message);
         }
     };
     return (

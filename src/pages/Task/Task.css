@@ -145,3 +145,16 @@ button[type="button"] {
     margin-left: 20px;
     color: #440bc9;
 }
+.btn-search {
+    min-width: 100px;
+}
+.select-search {
+    margin-top: 40px;
+    height: 30px;
+    width: 130px;
+}
+.form-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

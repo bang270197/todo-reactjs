@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useParams } from "react-router-dom";
 import projectApi from "../../Api/ProjectApi";
 import { createNotification } from "../../components/Notification/Notification";
 import { ToastContainer } from "react-toastify";
@@ -10,11 +10,9 @@ import UpdateUser from "../../components/Modal/UserModal/UpdateUser";
 import Pagination from "../../pages/Pagination/Pagination";
 import ModalAdd from "../../components/Modal/ProjectModal/AddProject";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+
 function ListProject(props) {
     const [projects, setProjects] = useState([]);
-    // const [isloading, setIsLoading] = useState(0);
-    // const [status, setStatus] = useState("");
     const [pagination, setPagination] = useState({
         page: 1,
         limit: 8,
@@ -36,13 +34,13 @@ function ListProject(props) {
                 // };
                 const response = await projectApi.getAll(filters);
 
-                if (response.code !== "200") {
+                if (response.data.code !== "200") {
                     createNotification("error", response.message);
                 } else {
                     setShow(true);
-                    setCount(response.countProject);
-                    setProjects(response.projects);
-                    setPagination(response.pagination);
+                    setCount(response.data.countProject);
+                    setProjects(response.data.projects);
+                    setPagination(response.data.pagination);
                     // setIsLoading(false);
                 }
             } catch (error) {
@@ -58,7 +56,7 @@ function ListProject(props) {
     }
 
     function handleAddClick(data) {
-        const newProjects = [...projects, data.project];
+        const newProjects = [...projects, data.data.project];
         setProjects(newProjects);
         setCount(count + 1);
     }
@@ -77,14 +75,14 @@ function ListProject(props) {
         setProjects(newProject);
     };
     const handleDelete = (data) => {
-        const newProject = projects.filter((pro) => pro._id !== data._id);
+        const newProject = projects.filter((pro) => pro._id !== data.body._id);
         setProjects(newProject);
         setCount(count - 1);
     };
     const handleUpdateStaus = async (id) => {
         const response = await projectApi.updateStaus(id);
-        if (response.code !== "200") {
-            createNotification("error", response.message);
+        if (response.data.code !== "200") {
+            createNotification("error", response.data.message);
         } else {
             const newProject = projects.filter((pro) => {
                 if (pro._id === id) {
@@ -93,16 +91,17 @@ function ListProject(props) {
                 return pro;
             });
             setProjects(newProject);
-            createNotification("success", response.message);
+            createNotification("success", response.data.message);
         }
     };
+
     return (
         <>
             <p className="spinner">
                 {/* {isloading && <Spinner animation="border" />} */}
                 {count === 0 && "Chưa có project nào"}
             </p>
-            {projects.countProject}
+            {/* {projects.countProject} */}
             <ToastContainer />
 
             <div>
@@ -112,23 +111,34 @@ function ListProject(props) {
             <Container className="container">
                 {/* {show === true && ( */}
                 <Row>
-                    <Col xs={12} sm={3} md={3}>
+                    <Col sm={12} md={4} lg={3} xs={12}>
                         <ModalAdd display addProjectClick={handleAddClick} />
                     </Col>
-                    <Col xs={12} sm={3} md={3} className="total-project">
+                    <Col
+                        sm={12}
+                        md={4}
+                        lg={3}
+                        xs={12}
+                        className="total-project"
+                    >
                         Project hiện có: {count}
                     </Col>
-                    <Col xs={12} sm={3} md={3}></Col>
-                    <Col xs={12} sm={3} md={3}>
+
+                    {/* <Col sm={12} md={4} lg={3} xs={12}>
+                        <Pagination
+                            pagination={pagination}
+                            onPageChange={handlePageChange}
+                        />
+                    </Col> */}
+                </Row>
+                <Row>
+                    <Col></Col>
+                    <Col sm={12} md={4} lg={3} xs={12}>
                         <Pagination
                             pagination={pagination}
                             onPageChange={handlePageChange}
                         />
                     </Col>
-                    {/* <Col xs={12} sm={4} md={3} className="total-project"></Col>
-                    <Col xs={12} sm={4} md={3} className="total-project">
-                        
-                    </Col> */}
                 </Row>
                 {/* )} */}
 

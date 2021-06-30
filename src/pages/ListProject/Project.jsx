@@ -14,6 +14,7 @@ Project.propTypes = {
 
 function Project(props) {
     const { project, updateStauts, handleUpdatePro, handleDeletePro } = props;
+
     const history = useHistory();
     const imgUrl =
         "http://localhost:3001/static/" + project.thumbnail.split("/")[2];

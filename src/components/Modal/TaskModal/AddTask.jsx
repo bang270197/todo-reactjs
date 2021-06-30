@@ -35,14 +35,14 @@ function AddTask(props) {
     const onSubmit = async (data) => {
         try {
             const response = await taskApi.create(data, id);
-            if (response.code === "200") {
+            if (response.data.code === "200") {
                 reset({});
-                createNotification("success", response.message);
+                createNotification("success", response.data.message);
                 if (handleClickAdd) {
                     handleClickAdd(response);
                 }
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (err) {
             console.log("Failed to fetch product list: ", err.message);

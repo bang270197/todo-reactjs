@@ -38,7 +38,7 @@ function AddUserToTask(props) {
         const fetchUserList = async () => {
             try {
                 const response = await projectApi.getUserByProject(id);
-                setUser(response.body.users);
+                setUser(response.data.body.users);
             } catch (error) {
                 console.log("Failed to fetch product list: ", error);
             }
@@ -51,13 +51,13 @@ function AddUserToTask(props) {
             const idTask = taskId;
             const idUser = data.user;
             const response = await taskApi.addUserToTask(idTask, data.user);
-            if (response.code === "200") {
+            if (response.data.code === "200") {
                 if (handleAddUser) {
-                    handleAddUser(response.body);
+                    handleAddUser(response.data.body);
                 }
-                createNotification("success", response.message);
+                createNotification("success", response.data.message);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error.message);

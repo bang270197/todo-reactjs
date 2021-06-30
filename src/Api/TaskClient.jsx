@@ -1,8 +1,34 @@
-import axiosClient from "./AxiosClient";
+import axios from "axios";
+import queryString from "query-string";
+
+const getLocalToken = () => {
+    const token = "Bearer " + localStorage.getItem("access_token");
+    console.log("token >>>", token);
+    axiosClient.setToken(token);
+    return token;
+};
+const axiosClient = axios.create({
+    baseURL: "http://localhost:3001/api",
+    headers: {
+        "content-type": "application/json; charset=utf-8",
+        // authorization: "Bearer " + localStorage.getItem("access_token"),
+    },
+    timeout: 300000,
+    paramsSerializer: (params) => queryString.stringify(params),
+});
+axiosClient.setToken = (token) => {
+    axiosClient.defaults.headers["x-access-token"] = token;
+    // window.localStorage.setItem('token', token)
+};
+
 const taskApi = {
     getAll(id) {
         const url = `/task/${id}`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, {
+            headers: {
+                authorization: getLocalToken(), // headers token
+            },
+        });
     },
     create(data, id) {
         const url = `/task/${id}`;
@@ -10,7 +36,7 @@ const taskApi = {
     },
     updateStatus(data, id) {
         const url = `/task/status/${id}`;
-        return axiosClient.put(url, data);
+        return axiosClient.put(url, data, {});
     },
     delete(id) {
         const url = `/task/${id}`;

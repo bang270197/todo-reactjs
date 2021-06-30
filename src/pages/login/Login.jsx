@@ -29,12 +29,14 @@ function Login(props) {
     const loginApi = async (data) => {
         try {
             const response = await authApi.login(data);
-            if (response.code === "200") {
-                localStorage.setItem("access_token", response.accessToken);
-                createNotification("success", response.message);
-                history.push("/project");
+            if (response.data.code === "200") {
+                console.log(response.accessToken);
+                localStorage.setItem("access_token", response.data.accessToken);
+                localStorage.setItem("username", response.data.username);
+                createNotification("success", response.data.message);
+                history.push(`/project`);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error);

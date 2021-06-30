@@ -45,12 +45,12 @@ function ModalAdd(props) {
             formData.append("title", data.title);
             formData.append("detail", data.detail);
             const response = await projectApi.create(formData);
-            if (response.code === "200") {
+            if (response.data.code === "200") {
                 addProject(response);
                 reset({});
-                createNotification("success", response.message);
+                createNotification("success", response.data.message);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error.message);
