@@ -7,6 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer } from "react-toastify";
 import taskApi from "../../../Api/TaskClient";
 import { createNotification } from "../../Notification/Notification";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 const schema = yup.object().shape({
     title: yup
         .string()
@@ -19,10 +22,11 @@ const schema = yup.object().shape({
 });
 function AddTask(props) {
     const { project, handleClickAdd } = props;
+    const [value, onChange] = useState(new Date());
     const [show, setShow] = useState(false);
     const handleClickShow = () => setShow(true);
     const handleClickClose = () => setShow(false);
-
+    const [selectDate, setselectDate] = useState(null);
     const {
         register,
         handleSubmit,
@@ -34,6 +38,9 @@ function AddTask(props) {
     const { id } = useParams();
     const onSubmit = async (data) => {
         try {
+            var startDate = moment(selectDate).format("DD-MM-yyyy");
+            // console.log(startDate);
+            data.deadline = startDate;
             const response = await taskApi.create(data, id);
             if (response.data.code === "200") {
                 reset({});
@@ -115,6 +122,18 @@ function AddTask(props) {
                                     <option value="done">done</option>
                                 </select>
                             </div>
+                        </div>
+                        <div>
+                            <label className="label">DeadLine</label>
+                            <DatePicker
+                                selected={selectDate}
+                                onChange={(date) => setselectDate(date)}
+                                dateFormat="dd/MM/yyyy"
+                                minDate={new Date()}
+                                isClearable
+                                showYearDropdown
+                                scrollableMonthYearDropdown
+                            />
                         </div>
 
                         <button className="btn btn-primary" type="submit">

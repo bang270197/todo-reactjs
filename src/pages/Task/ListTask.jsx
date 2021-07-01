@@ -9,17 +9,19 @@ import { v4 as uuidv4 } from "uuid";
 import AddTask from "../../components/Modal/TaskModal/AddTask";
 import AddUserToTask from "../../components/Modal/TaskModal/AddUserToTask";
 import { ToastContainer } from "react-toastify";
-import { Col, Container, Row, Button } from "react-bootstrap";
+import { Col, Container, Row, Button, Form } from "react-bootstrap";
 
 function ListTask(props) {
     const { id } = useParams();
     const [all, setAll] = useState(false);
     const [columns, setColumns] = useState({});
+    const [coreColumns, setCoreColumns] = useState({});
     const [status, setStatus] = useState("");
     const [statusDelete, setStatusDelete] = useState({});
     const [addUser, setAddUser] = useState({});
     const [countTask, setcountTask] = useState(0);
     const [countUser, setCountUser] = useState(0);
+    const [check, setCheck] = useState(false);
     const onDragEnd = async (result, columns, setColumns) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -93,7 +95,6 @@ function ListTask(props) {
         const fetchTaskList = async () => {
             try {
                 const response = await taskApi.getAll(id);
-                console.log(response);
                 const count = await projectApi.countTaskAndUser(id);
                 setCountUser(count.data.countUser);
                 setcountTask(count.data.countTask);
@@ -128,6 +129,8 @@ function ListTask(props) {
                     };
 
                     setColumns(columnFromBackend);
+                    //lấu danh sách core để lọc dữ liệu , xong gán ngược object cho column
+                    setCoreColumns(columnFromBackend);
                 }
             } catch (error) {
                 console.log("Failed to fetch product list: ", error);
@@ -140,37 +143,38 @@ function ListTask(props) {
 
     const [choose, setChoose] = useState("");
     const handleChange = (event) => {
-        console.log();
+        console.log(event.target.value);
         setChoose(event.target.value);
     };
     const handleSubmit = (event) => {
         try {
             event.preventDefault();
-            // console.log(choose);
             switch (choose) {
                 case "high":
                     let hightTodo;
                     let hightProgress;
                     let hightDone;
-                    Object.entries(columns).map(([columnId, column], index) => {
-                        // console.log(column.items);
+                    Object.entries(coreColumns).map(
+                        ([columnId, column], index) => {
+                            // console.log(column.items);
 
-                        if (column.name === "Todo") {
-                            hightTodo = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
+                            if (column.name === "Todo") {
+                                hightTodo = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Progress") {
+                                hightProgress = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Done") {
+                                hightDone = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
                         }
-                        if (column.name === "Progress") {
-                            hightProgress = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                        if (column.name === "Done") {
-                            hightDone = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                    });
+                    );
                     const columnHight = {
                         [uuidv4()]: {
                             name: "Todo",
@@ -195,25 +199,27 @@ function ListTask(props) {
                     let mediumTodo;
                     let mediumProgress;
                     let mediumDone;
-                    Object.entries(columns).map(([columnId, column], index) => {
-                        // console.log(column.items);
+                    Object.entries(coreColumns).map(
+                        ([columnId, column], index) => {
+                            // console.log(column.items);
 
-                        if (column.name === "Todo") {
-                            mediumTodo = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
+                            if (column.name === "Todo") {
+                                mediumTodo = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Progress") {
+                                mediumProgress = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Done") {
+                                mediumDone = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
                         }
-                        if (column.name === "Progress") {
-                            mediumProgress = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                        if (column.name === "Done") {
-                            mediumDone = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                    });
+                    );
                     const columnMedium = {
                         [uuidv4()]: {
                             name: "Todo",
@@ -238,25 +244,27 @@ function ListTask(props) {
                     let lowTodo;
                     let lowProgress;
                     let lowDone;
-                    Object.entries(columns).map(([columnId, column], index) => {
-                        // console.log(column.items);
+                    Object.entries(coreColumns).map(
+                        ([columnId, column], index) => {
+                            // console.log(column.items);
 
-                        if (column.name === "Todo") {
-                            lowTodo = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
+                            if (column.name === "Todo") {
+                                lowTodo = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Progress") {
+                                lowProgress = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
+                            if (column.name === "Done") {
+                                lowDone = column.items.filter((item) => {
+                                    return item.priority === choose;
+                                });
+                            }
                         }
-                        if (column.name === "Progress") {
-                            lowProgress = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                        if (column.name === "Done") {
-                            lowDone = column.items.filter((item) => {
-                                return item.priority === choose;
-                            });
-                        }
-                    });
+                    );
                     const columnLow = {
                         [uuidv4()]: {
                             name: "Todo",
@@ -278,7 +286,10 @@ function ListTask(props) {
                     setColumns(columnLow);
                     break;
                 case "all":
-                    setAll(!all);
+                    setColumns(coreColumns);
+                    break;
+                case "a":
+                    console.log("aa");
                     break;
                 default:
                     let searchTodo;
@@ -334,6 +345,10 @@ function ListTask(props) {
             console.log("Failed to fetch product list: ", err.message);
         }
     };
+    const handleCheck = (event) => {
+        setCheck(!check);
+        console.log(event);
+    };
     return (
         <div className="body-list-task">
             <Container>
@@ -357,13 +372,14 @@ function ListTask(props) {
                                 // value={user}
                                 onChange={handleChange}
                             >
-                                <option value="">--- Lọc theo ---</option>
+                                <option value="a">--- Lọc theo ---</option>
                                 <option value="all">All</option>
                                 <option value={user}>Task của tôi</option>
-                                {/* <option value="high">High</option>
+                                <option value="high">High</option>
                                 <option value="medium">Medium</option>
-                                <option value="low">Low</option> */}
+                                <option value="low">Low</option>
                             </select>
+
                             <Button
                                 className="btn btn-primary btn-search"
                                 type="submit"
@@ -535,6 +551,12 @@ function ListTask(props) {
                                                                                                 {
                                                                                                     item.title
                                                                                                 }
+                                                                                                <div className="dead-line">
+                                                                                                    DeadLine:
+                                                                                                    {
+                                                                                                        item.deadline
+                                                                                                    }
+                                                                                                </div>
                                                                                             </div>
                                                                                         );
                                                                                     }}

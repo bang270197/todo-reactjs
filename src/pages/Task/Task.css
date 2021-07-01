@@ -35,7 +35,7 @@
 .btn-add-user-to-task {
     position: absolute;
     left: 60px;
-    top: 8px;
+    top: 12px;
     opacity: 0;
 }
 .btn-add-user-to-task:hover {
@@ -157,4 +157,8 @@ button[type="button"] {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.dead-line {
+    font-size: 11px;
+    opacity: 0.5;
 }
