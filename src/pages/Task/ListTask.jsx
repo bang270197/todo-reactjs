@@ -10,7 +10,7 @@ import AddTask from "../../components/Modal/TaskModal/AddTask";
 import AddUserToTask from "../../components/Modal/TaskModal/AddUserToTask";
 import { ToastContainer } from "react-toastify";
 import { Col, Container, Row, Button, Form } from "react-bootstrap";
-
+import UpdateTask from "../../components/Modal/TaskModal/UpdateTask";
 function ListTask(props) {
     const { id } = useParams();
     const [all, setAll] = useState(false);
@@ -349,6 +349,60 @@ function ListTask(props) {
         setCheck(!check);
         console.log(event);
     };
+    const handleUpdateTask = (data) => {
+        console.log(data);
+
+        let updateTodo;
+        let updateProgress;
+        let updateDone;
+        Object.entries(coreColumns).map(([columnId, column], index) => {
+            // console.log(column.items);
+
+            if (column.name === "Todo") {
+                updateTodo = column.items.filter((item) => {
+                    if (item._id === data._id) {
+                        item.title = data.title;
+                    }
+                    return item;
+                });
+            }
+            if (column.name === "Progress") {
+                updateProgress = column.items.filter((item) => {
+                    if (item._id === data._id) {
+                        item.title = data.title;
+                    }
+                    return item;
+                });
+            }
+            if (column.name === "Done") {
+                updateDone = column.items.filter((item) => {
+                    if (item._id === data._id) {
+                        item.title = data.title;
+                    }
+                    return item;
+                });
+            }
+        });
+        const columnUpdate = {
+            [uuidv4()]: {
+                name: "Todo",
+                value: "new",
+                items: updateTodo,
+            },
+            [uuidv4()]: {
+                name: "Progress",
+                value: "progress",
+                items: updateProgress,
+            },
+            [uuidv4()]: {
+                name: "Done",
+                value: "done",
+                items: updateDone,
+            },
+        };
+
+        setColumns(columnUpdate);
+    };
     return (
         <div className="body-list-task">
             <Container>
@@ -506,6 +560,17 @@ function ListTask(props) {
                                                                                                         )
                                                                                                     }
                                                                                                 ></i>
+                                                                                                <UpdateTask
+                                                                                                    id={
+                                                                                                        item._id
+                                                                                                    }
+                                                                                                    title={
+                                                                                                        item.title
+                                                                                                    }
+                                                                                                    updateTask={
+                                                                                                        handleUpdateTask
+                                                                                                    }
+                                                                                                />
                                                                                                 <i
                                                                                                     className={
                                                                                                         item.priority ===

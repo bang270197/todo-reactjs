@@ -29,6 +29,14 @@ const taskApi = {
             },
         });
     },
+    updateTask(data, id) {
+        const url = `/task/${id}`;
+        return axiosClient.put(url, data, {
+            headers: {
+                authorization: getLocalToken(), // headers token
+            },
+        });
+    },
     create(data, id) {
         const url = `/task/${id}`;
         return axiosClient.post(url, data);

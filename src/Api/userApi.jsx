@@ -3,7 +3,6 @@ import queryString from "query-string";
 
 const getLocalToken = () => {
     const token = "Bearer " + localStorage.getItem("access_token");
-    console.log("token >>>", token);
     axiosClient.setToken(token);
     return token;
 };

@@ -162,3 +162,17 @@ button[type="button"] {
     font-size: 11px;
     opacity: 0.5;
 }
+.update-task {
+    position: absolute;
+    right: 15px;
+    top: -5px;
+    color: green;
+}
+
+.update-task:hover {
+    transform: scale(1.5, 1.5);
+    -moz-transform: scale(1.5, 1.5);
+    -webkit-transform: scale(1.5, 1.5);
+    -o-transform: scale(1.5, 1.5);
+    -ms-transform: scale(1.5, 1.5);
+}
