@@ -30,7 +30,6 @@ function Login(props) {
         try {
             const response = await authApi.login(data);
             if (response.data.code === "200") {
-                console.log(response.accessToken);
                 localStorage.setItem("access_token", response.data.accessToken);
                 localStorage.setItem("username", response.data.username);
                 createNotification("success", response.data.message);
@@ -83,11 +82,15 @@ function Login(props) {
                         </div>
                     );
                 })}
-                <button className="btn" type="submit">
-                    Đăng nhập
-                </button>
+                <div className="btn-login">
+                    <button className="btn" type="submit">
+                        Đăng nhập
+                    </button>
+                    <Link className="link-dk" to={"/sign-up"}>
+                        Đăng ký
+                    </Link>
+                </div>
             </form>
-            <Link to={"/sign-up"}>Đăng ký tài khoản</Link>
         </div>
     );
 }

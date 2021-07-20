@@ -5,17 +5,17 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer } from "react-toastify";
-import taskApi from "../../../Api/TaskClient";
+import taskApi from "../../../Api/userApi";
 import { createNotification } from "../../Notification/Notification";
 const schema = yup.object().shape({
-    title: yup
-        .string()
-        .required("Title không được trống")
-        .min(6, "Title không được nhỏ hơn 6 ký tự"),
-    detail: yup
-        .string()
-        .required("Detail không được trống")
-        .min(6, "Detail không được nhỏ hơn 6 ký tự"),
+    // title: yup
+    //     .string()
+    //     .required("Title không được trống")
+    //     .min(6, "Title không được nhỏ hơn 6 ký tự"),
+    // detail: yup
+    //     .string()
+    //     .required("Detail không được trống")
+    //     .min(6, "Detail không được nhỏ hơn 6 ký tự"),
 });
 function UpdateUser(props) {
     const [show, setShow] = useState(false);
@@ -33,16 +33,15 @@ function UpdateUser(props) {
     // const { id } = useParams();
     const onSubmit = async (data) => {
         try {
-            // const response = await taskApi.create(data, id);
-            // if (response.code === "200") {
-            //     reset({});
-            //     createNotification("success", response.message);
-            //     if (handleClickAdd) {
-            //         handleClickAdd(response);
-            //     }
-            // } else {
-            //     createNotification("error", response.message);
-            // }
+            data.username = localStorage.getItem("username");
+
+            const response = await taskApi.updateUser(data);
+            if (response.data.code === "200") {
+                reset({});
+                createNotification("success", response.data.message);
+            } else {
+                createNotification("error", response.data.message);
+            }
         } catch (err) {
             console.log("Failed to fetch product list: ", err.message);
         }
@@ -61,48 +60,24 @@ function UpdateUser(props) {
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
-                            <label className="label">Title</label>
+                            <label className="label">PassWord</label>
                             <input
-                                name="title"
+                                name="newpassword"
                                 className="input"
-                                type="text"
-                                {...register("title")}
+                                type="password"
+                                {...register("newpassword")}
                             ></input>
-                            {/* <div className="alter">
-                                <div
-                                    className={
-                                        errors["title"]
-                                            ? "alert alert-danger"
-                                            : ""
-                                    }
-                                    role="alert"
-                                >
-                                    <p>{errors["title"]?.message}</p>
-                                </div>
-                            </div> */}
-                            {/* <label className="label">Detail</label> */}
-                            {/* <input
-                                name="detail"
+                            <label className="label">Email</label>
+                            <input
+                                name="email"
                                 className="input"
                                 type="text"
-                                {...register("detail")}
-                            ></input> */}
-                            {/* <div className="alter">
-                                <div
-                                    className={
-                                        errors["detail"]
-                                            ? "alert alert-danger"
-                                            : ""
-                                    }
-                                    role="alert"
-                                >
-                                    <p>{errors["detail"]?.message}</p>
-                                </div>
-                            </div> */}
+                                {...register("email")}
+                            ></input>
                         </div>
 
                         <button className="btn btn-primary" type="submit">
-                            Add task
+                            Update user
                         </button>
                     </form>
                 </Modal.Body>

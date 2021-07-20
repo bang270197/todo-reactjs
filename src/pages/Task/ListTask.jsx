@@ -51,6 +51,11 @@ function ListTask(props) {
                 data,
                 result.draggableId
             );
+            if (response.data.code !== "200") {
+                createNotification("error", response.data.message);
+            } else {
+                // createNotification("success", response.data.message);
+            }
         } else {
             const column = columns[source.droppableId];
             const copiedItems = [...column.items];
@@ -496,7 +501,7 @@ function ListTask(props) {
                                                                         background:
                                                                             snapshot.isDraggingOver
                                                                                 ? "#c4c7d1"
-                                                                                : "#ebecf0",
+                                                                                : "#f0f1f7",
                                                                         padding: 3,
                                                                         overflow:
                                                                             "scroll",

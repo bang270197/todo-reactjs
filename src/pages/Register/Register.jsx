@@ -16,7 +16,10 @@ const schema = yup.object().shape({
         .string()
         .required("Password không được trống")
         .min(6, "Password không được nhỏ hơn 6 ký tự"),
-    email: yup.string().required().email("Sai định dạng email"),
+    email: yup
+        .string()
+        .required("Email không được để trống")
+        .email("Sai định dạng email"),
 });
 function Register(props) {
     const loginApi = async (data) => {

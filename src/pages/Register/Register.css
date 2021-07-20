@@ -10,4 +10,17 @@
 .input-register {
     margin: 0 auto;
     width: 300px;
+    border: none;
+    background: rgb(235, 235, 221);
+    background: linear-gradient(
+        90deg,
+        rgba(235, 235, 221, 1) 48%,
+        rgba(230, 219, 223, 1) 65%
+    );
+}
+.label-regiter {
+    font-family: "Times New Roman", Times, serif;
+}
+.btn {
+    font-family: "Times New Roman", Times, serif;
 }

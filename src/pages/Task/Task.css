@@ -60,8 +60,14 @@
 .container {
     margin-left: 100px;
 }
-.column-div {
+.task {
     border-radius: 5px;
+}
+
+.column-div {
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
 }
 .body-list-task {
     background: #f9fafa;

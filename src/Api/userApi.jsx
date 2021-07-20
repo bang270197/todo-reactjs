@@ -28,5 +28,13 @@ const taskApi = {
             },
         });
     },
+    updateUser(data) {
+        const url = `/auth/update/user`;
+        return axiosClient.put(url, data, {
+            headers: {
+                authorization: getLocalToken(), // headers token
+            },
+        });
+    },
 };
 export default taskApi;

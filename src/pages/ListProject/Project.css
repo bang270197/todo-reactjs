@@ -4,6 +4,7 @@ img {
 }
 .project_name {
     font-weight: bold;
+    font-family: "Times New Roman", Times, serif;
 }
 .projects-list {
     display: flex;
@@ -18,12 +19,15 @@ li {
 .project {
     margin-left: 20px;
     margin-top: 20px;
-    border: 1px solid;
-    border-radius: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    padding-top: 10px;
     cursor: pointer;
     box-shadow: 10px 10px #d3d9df;
     position: relative;
-
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
     min-height: 300px;
 }
 .fa-trash {
