@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import projectApi from "../../../Api/ProjectApi";
 import { createNotification } from "../../Notification/Notification";
+import FileBase from "react-file-base64";
 UpdateProject.propTypes = {};
 const schema = yup.object().shape({
     title: yup
@@ -22,9 +23,10 @@ function UpdateProject(props) {
     const [show, setShow] = useState(false);
     const handleClickShow = () => setShow(true);
     const handleClickClose = () => setShow(false);
-
-    const imgUrl =
-        "http://localhost:3001/static/" + project.thumbnail.split("/")[2];
+    const [img, setImg] = useState("");
+    // const imgUrl =
+    //     "http://localhost:3001/static/" + project.thumbnail.split("/")[2];
+    const imgUrl = project.thumbnail;
     const {
         register,
         handleSubmit,
@@ -42,14 +44,15 @@ function UpdateProject(props) {
 
     const onSubmit = async (data) => {
         try {
-            let thumbnail = data.thumbnail[0];
-            const formData = new FormData();
-            if (typeof thumbnail !== "undefined") {
-                formData.append("thumbnail", thumbnail);
-            }
-            formData.append("title", data.title);
-            formData.append("detail", data.detail);
-            const response = await projectApi.update(formData, project._id);
+            data.thumbnail = img;
+            // let thumbnail = data.thumbnail[0];
+            // const formData = new FormData();
+            // if (typeof thumbnail !== "undefined") {
+            //     formData.append("thumbnail", thumbnail);
+            // }
+            // formData.append("title", data.title);
+            // formData.append("detail", data.detail);
+            const response = await projectApi.update(data, project._id);
             if (response.data.code === "200") {
                 // addProject(response);
                 createNotification("success", response.data.message);
@@ -118,12 +121,11 @@ function UpdateProject(props) {
                                     alt={project.title}
                                 />
                             </div>
-                            <input
-                                name="thumbnail"
-                                className="input"
+                            <FileBase
                                 type="file"
-                                {...register("thumbnail")}
-                            ></input>
+                                multiple={false}
+                                onDone={({ base64 }) => setImg(base64)}
+                            />
                         </div>
 
                         <button className="btn btn-primary" type="submit">

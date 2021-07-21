@@ -5,6 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Contents } from "../../../Constants/Item";
+import FileBase from "react-file-base64";
 import { createNotification } from "../../Notification/Notification";
 import projectApi from "../../../Api/ProjectApi";
 const schema = yup.object().shape({
@@ -22,6 +23,7 @@ ModalAdd.propTypes = {
 };
 function ModalAdd(props) {
     const { addProjectClick } = props;
+    const [img, setImg] = useState("");
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
     const {
@@ -39,12 +41,14 @@ function ModalAdd(props) {
     }
     const onSubmit = async (data) => {
         try {
-            let thumbnail = data.thumbnail[0];
-            const formData = new FormData();
-            formData.append("thumbnail", thumbnail);
-            formData.append("title", data.title);
-            formData.append("detail", data.detail);
-            const response = await projectApi.create(formData);
+            data.thumbnail = img;
+            console.log(data);
+            // let thumbnail = data.thumbnail[0];
+            // const formData = new FormData();
+            // formData.append("thumbnail", thumbnail);
+            // formData.append("title", data.title);
+            // formData.append("detail", data.detail);
+            const response = await projectApi.create(data);
             if (response.data.code === "200") {
                 addProject(response);
                 reset({});
@@ -67,35 +71,55 @@ function ModalAdd(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        {Contents.inputs.map((input, index) => {
-                            return (
-                                <div key={index}>
-                                    <label className="label">
-                                        {input.label}
-                                    </label>
-                                    <input
-                                        name={input.name}
-                                        className="input"
-                                        type={input.type}
-                                        {...register(`${input.name}`)}
-                                    ></input>
-                                    <div className="alter">
-                                        <div
-                                            className={
-                                                errors[input.name]
-                                                    ? "alert alert-danger"
-                                                    : ""
-                                            }
-                                            role="alert"
-                                        >
-                                            <p>{errors[input.name]?.message}</p>
-                                        </div>
-                                    </div>
+                        <div>
+                            <label className="label">Title</label>
+                            <input
+                                name="title"
+                                className="input"
+                                type="text"
+                                {...register("title")}
+                            ></input>
+                            <div className="alter">
+                                <div
+                                    className={
+                                        errors["title"]
+                                            ? "alert alert-danger"
+                                            : ""
+                                    }
+                                    role="alert"
+                                >
+                                    <p>{errors["title"]?.message}</p>
                                 </div>
-                            );
-                        })}
+                            </div>
+                            <label className="label">Detail</label>
+                            <input
+                                name="detail"
+                                className="input"
+                                type="text"
+                                {...register("detail")}
+                            ></input>
+                            <div className="alter">
+                                <div
+                                    className={
+                                        errors["detail"]
+                                            ? "alert alert-danger"
+                                            : ""
+                                    }
+                                    role="alert"
+                                >
+                                    <p>{errors["detail"]?.message}</p>
+                                </div>
+                            </div>
+                            <label className="label">Image</label>
+                            <FileBase
+                                type="file"
+                                multiple={false}
+                                onDone={({ base64 }) => setImg(base64)}
+                            />
+                        </div>
+
                         <button className="btn btn-primary" type="submit">
-                            Thêm project
+                            Add project
                         </button>
                     </form>
                 </Modal.Body>

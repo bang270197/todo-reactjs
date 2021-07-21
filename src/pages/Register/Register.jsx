@@ -25,10 +25,10 @@ function Register(props) {
     const loginApi = async (data) => {
         try {
             const response = await authApi.register(data);
-            if (response.code === "200") {
-                createNotification("success", response.message);
+            if (response.data.code === "200") {
+                createNotification("success", response.data.message);
             } else {
-                createNotification("error", response.message);
+                createNotification("error", response.data.message);
             }
         } catch (error) {
             console.log("Failed to fetch product list: ", error);
