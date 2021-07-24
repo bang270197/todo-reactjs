@@ -9,7 +9,7 @@ const getLocalToken = () => {
 };
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:3001/api",
+    baseURL: "https://api.testgetbee.getbee.vn/api",
     headers: {
         "content-type": "application/json; charset=utf-8",
         // authorization: "Bearer " + localStorage.getItem("access_token"),

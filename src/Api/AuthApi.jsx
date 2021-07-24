@@ -3,7 +3,7 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:3001/api",
+    baseURL: "https://api.testgetbee.getbee.vn/api",
     headers: {
         "content-type": "application/json; charset=utf-8",
         authorization: "Bearer " + localStorage.getItem("access_token"),
